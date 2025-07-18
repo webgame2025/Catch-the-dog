@@ -32,7 +32,8 @@ body.dark {
 }
 
 h1.title-3d {
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  white-space: nowrap;
   text-align: center;
   margin-top: 1rem;
   color: #fff;
@@ -58,12 +59,13 @@ h1.title-3d {
   outline: none;
   background: #ede7f6;
   color: #4a148c;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, background 1s ease;
+  box-shadow: 0 0 12px rgba(156, 39, 176, 0.4);
 }
 
-.input-styled.glow,
-select.glow {
-  box-shadow: 0 0 12px rgba(156, 39, 176, 0.4);
+.input-styled:focus {
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.5);
+  background: linear-gradient(45deg, #e1bee7, #f3e5f5, #ede7f6);
 }
 
 body.dark .input-styled {
@@ -211,4 +213,19 @@ body.dark .info-box {
 
 .hidden {
   display: none;
+}
+
+/* Facebook Link Styling */
+a.facebook-link {
+  color: #ab47bc;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 30px;
+  display: inline-block;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a.facebook-link:hover {
+  color: #d500f9;
+  text-shadow: 0 0 5px #d500f9, 0 0 10px #00e5ff;
 }
