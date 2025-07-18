@@ -1,6 +1,6 @@
 {
-  "name": "Whack the Cat!",
-  "short_name": "WhackCat",
+  "name": "Whack the Dog!",
+  "short_name": "WhackDog",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#1a1a2e",
