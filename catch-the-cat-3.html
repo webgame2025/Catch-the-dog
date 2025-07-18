@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Whack the Cat!</title>  <!-- English font only -->  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #f3e5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      cursor: url('https://cdn-icons-png.flaticon.com/512/471/471713.png') 32 32, auto;
+    }
+
+    h1 {
+      color: #6a1b9a;
+    }
+
+    #score, #timer {
+      font-size: 1.5rem;
+      margin: 10px;
+    }
+
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #6a1b9a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #gameArea {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+      width: 90vw;
+      max-width: 600px;
+      margin-top: 20px;
+    }
+
+    .hole {
+      width: 100px;
+      height: 100px;
+      background: #4a148c;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .cat {
+      width: 80px;
+      height: 80px;
+      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center;
+      background-size: cover;
+      position: absolute;
+      bottom: -80px;
+      transition: bottom 0.2s;
+    }
+
+    .cat.up {
+      bottom: 0;
+    }
+
+    .star {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      animation: spin 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes spin {
+      0% { transform: translateX(-50%) rotate(0deg); }
+      100% { transform: translateX(-50%) rotate(360deg); }
+    }
+  </style></head>
+<body>
+  <h1>Whack the Cat!</h1>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time: 60</div>
+  <button id="startBtn">Start Game</button>
+  <div id="gameArea"></div>  <script>
+    const scoreDisplay = document.getElementById('score');
+    const timerDisplay = document.getElementById('timer');
+    const startBtn = document.getElementById('startBtn');
+    const gameArea = document.getElementById('gameArea');
+
+    let score = 0;
+    let timeLeft = 60;
+    let gameTimer;
+    let popInterval;
+    let holes = [];
+
+    function createHoles() {
+      gameArea.innerHTML = '';
+      holes = [];
+      for (let i = 0; i < 9; i++) {
+        const hole = document.createElement('div');
+        hole.classList.add('hole');
+
+        const cat = document.createElement('div');
+        cat.classList.add('cat');
+        hole.appendChild(cat);
+
+        cat.addEventListener('click', () => {
+          if (!cat.classList.contains('hit')) {
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            cat.classList.add('hit');
+
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.textContent = '💥';
+            cat.appendChild(star);
+
+            setTimeout(() => {
+              cat.classList.remove('hit');
+              cat.classList.remove('up');
+              star.remove();
+            }, 400);
+          }
+        });
+
+        gameArea.appendChild(hole);
+        holes.push(cat);
+      }
+    }
+
+    function randomPop() {
+      const randomIndex = Math.floor(Math.random() * holes.length);
+      const cat = holes[randomIndex];
+      if (cat.classList.contains('up')) return;
+      cat.classList.add('up');
+      setTimeout(() => cat.classList.remove('up'), 480);
+    }
+
+    function updateTimer() {
+      timeLeft--;
+      timerDisplay.textContent = `Time: ${timeLeft}`;
+      if (timeLeft <= 0) {
+        clearInterval(gameTimer);
+        clearInterval(popInterval);
+        alert(`Time's up! Your score: ${score}`);
+        startBtn.disabled = false;
+      }
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 60;
+      scoreDisplay.textContent = `Score: ${score}`;
+      timerDisplay.textContent = `Time: ${timeLeft}`;
+      startBtn.disabled = true;
+
+      createHoles();
+      gameTimer = setInterval(updateTimer, 1000);
+      popInterval = setInterval(randomPop, 400);
+    }
+
+    startBtn.addEventListener('click', startGame);
+  </script>
+<h4> Riajul Daian Arpon </h4></body>
+</html>
