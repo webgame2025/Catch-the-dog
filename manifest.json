@@ -1,13 +1,14 @@
 {
-  "name": "Whack the Cat!",
-  "short_name": "Whack Cat",
-  "start_url": ".",
+  "name": "Whack the Cat",
+  "short_name": "Cat Game",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f3e5f5",
   "theme_color": "#6a1b9a",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/616/616408.png",
       "sizes": "512x512",
       "type": "image/png"
     }
