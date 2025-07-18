@@ -2,24 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Whack the Cat - Game</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game - Whack the Cat</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="game-header">
-    <h1>Whack the Cat!</h1>
-    <div id="score">Score: 0</div>
-    <div id="timer">Time: 60</div>
+    <div id="score" class="info-box">Score: 0</div>
+    <div id="timer" class="info-box">Time: 60</div>
+    <div class="game-controls">
+      <button id="pauseBtn" class="btn-3d">Pause</button>
+      <button id="replayBtn" class="btn-3d" style="display:none">Restart</button>
+      <button id="backToMenuBtn" class="btn-3d">Back to Menu</button>
+    </div>
   </div>
-  <div class="button-group">
-    <button id="pauseBtn">⏸ Pause</button>
-    <button id="replayBtn" style="display:none;">🔁 Replay</button>
-    <button onclick="window.location.href='menu.html'">🏠 Menu</button>
-  </div>
-  <div id="gameArea"></div>
+  <div id="gameArea" class="game-area"></div>
+
   <script src="script_game.js"></script>
 </body>
 </html>
