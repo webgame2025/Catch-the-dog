@@ -1,16 +1,26 @@
-// script_menu.js
 const startBtn = document.getElementById('startBtn');
-const playerNameInput = document.getElementById('playerName');
-const difficulty = document.getElementById('difficulty');
-const gameType = document.getElementById('gameType');
-const highScoreList = document.getElementById('highScoreList');
 const darkModeBtn = document.getElementById('darkModeBtn');
+const highScoreList = document.getElementById('highScoreList');
 
-function getHighScores() {
-  return JSON.parse(localStorage.getItem('highScores') || '[]');
-}
+startBtn.addEventListener('click', () => {
+  const playerName = document.getElementById('playerName').value || 'Anonymous';
+  const gameType = document.getElementById('gameType').value;
+  const difficulty = document.getElementById('difficulty').value;
+
+  localStorage.setItem('playerName', playerName);
+  localStorage.setItem('gameType', gameType);
+  localStorage.setItem('difficulty', difficulty);
+
+  window.location.href = 'game.html';
+});
+
+darkModeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark') ? 'on' : 'off');
+});
+
 function updateHighScoreDisplay() {
-  const scores = getHighScores();
+  const scores = JSON.parse(localStorage.getItem('highScores') || '[]');
   highScoreList.innerHTML = '';
   scores.forEach(s => {
     const li = document.createElement('li');
@@ -18,14 +28,10 @@ function updateHighScoreDisplay() {
     highScoreList.appendChild(li);
   });
 }
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-}
-startBtn.addEventListener('click', () => {
-  localStorage.setItem('playerName', playerNameInput.value || 'Anonymous');
-  localStorage.setItem('difficulty', difficulty.value);
-  localStorage.setItem('gameType', gameType.value);
-  window.location.href = 'game.html';
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('darkMode') === 'on') {
+    document.body.classList.add('dark');
+  }
+  updateHighScoreDisplay();
 });
-darkModeBtn.addEventListener('click', toggleDarkMode);
-updateHighScoreDisplay();
