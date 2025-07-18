@@ -1,8 +1,8 @@
-// script_game.js
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
 const pauseBtn = document.getElementById('pauseBtn');
 const replayBtn = document.getElementById('replayBtn');
+const backBtn = document.getElementById('backBtn');
 const gameArea = document.getElementById('gameArea');
 
 let playerName = localStorage.getItem('playerName') || 'Anonymous';
@@ -87,6 +87,7 @@ function startGame() {
   setDifficulty();
   scoreDisplay.textContent = `Score: ${score}`;
   timerDisplay.textContent = `Time: ${timeLeft}`;
+  replayBtn.style.display = 'none';
   createHoles();
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
@@ -100,7 +101,14 @@ function replayGame() {
   clearInterval(popInterval);
   startGame();
 }
+function backToMenu() {
+  clearInterval(gameTimer);
+  clearInterval(popInterval);
+  window.location.href = 'index.html';
+}
 
 pauseBtn.addEventListener('click', togglePause);
 replayBtn.addEventListener('click', replayGame);
+backBtn.addEventListener('click', backToMenu);
+
 startGame();
