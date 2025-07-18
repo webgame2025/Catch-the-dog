@@ -1,18 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Whack the Cat - Menu</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Whack the Cat!</title>
+  <link rel="icon" href="icon.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="menu-container">
-    <h1>Whack the Cat!</h1>
-    <button onclick="window.location.href='game.html'">🎮 Start Game</button>
-    <p>Created with ❤️ for fun!</p>
-  </div>
-</body>
+  <!-- Menu Page -->
+  <div id="menu" class="menu-container">
+    <h1 class="title-3d">Whack the Cat!</h1>
+    <input type="text" id="playerName" placeholder="Enter your name" class="input-styled" />
+    <div class="button-group">
+      <button id="startBtn" class="btn-3d">Start Game</button>
+      <button id="darkModeBtn" class="btn-3d">Toggle Dark Mode</button>
+    </div>
+    <div class="selectors">
+      <label>Game Type:</label>
+      <select id="gameType" class="input-styled">
+        <option value="classic" selected>Classic Mode</option>
+        <option value="bonus">Bonus Cats</option>
+        <option value="chaos">Chaos Mode</option>
+      </select>
+      <label>Difficulty:</label>
+      <select id="difficulty" class="input-styled">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+    <div class="high-score-box">
+      <strong>Top 5 High Scores</strong>
+      <ul id="highScoreList"></ul>
+    </div>
+  </div>  <!-- Game Page -->  <div id="gamePage" class="hidden">
+    <div class="game-header">
+      <div id="score" class="info-box">Score: 0</div>
+      <div id="timer" class="info-box">Time: 60</div>
+      <div class="game-controls">
+        <button id="pauseBtn" class="btn-3d">Pause</button>
+        <button id="replayBtn" class="btn-3d">Restart</button>
+        <button id="backToMenuBtn" class="btn-3d">Back to Menu</button>
+      </div>
+    </div>
+    <div id="gameArea" class="game-area"></div>
+  </div>  <script src="script_menu.js"></script>  <script src="script_game.js"></script></body>
 </html>
