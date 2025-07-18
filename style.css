@@ -31,22 +31,36 @@ body.dark {
   padding: 20px;
 }
 
-h1.title-3d {
+h1.dynamic-title {
   font-size: clamp(2rem, 6vw, 3.5rem);
   white-space: nowrap;
   text-align: center;
   margin-top: 1rem;
   color: #ff4081;
   text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
-  animation: colorShift 4s infinite ease-in-out;
+  animation: vibrantColorShift 4s infinite ease-in-out;
 }
 
-@keyframes hueRotate {
+@keyframes vibrantColorShift {
   0% {
-    filter: hue-rotate(0deg);
+    color: #ff4081;
+    text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
+  }
+  25% {
+    color: #e040fb;
+    text-shadow: 2px 2px 0 #ff6e40, 4px 4px 0 #f50057;
+  }
+  50% {
+    color: #40c4ff;
+    text-shadow: 2px 2px 0 #ffea00, 4px 4px 0 #00e676;
+  }
+  75% {
+    color: #ffab40;
+    text-shadow: 2px 2px 0 #d500f9, 4px 4px 0 #00b0ff;
   }
   100% {
-    filter: hue-rotate(360deg);
+    color: #ff4081;
+    text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
   }
 }
 
