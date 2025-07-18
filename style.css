@@ -23,15 +23,28 @@ body.dark {
   color: var(--text-light);
 }
 
+/* 🔥 Animated Gradient Vibration Title */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .title-3d {
   font-size: 3rem;
   text-align: center;
   margin-top: 1rem;
-  color: #fff;
-  text-shadow: 2px 2px 0 #9c27b0, 4px 4px 0 #7b1fa2;
+  font-weight: 700;
+  background: linear-gradient(270deg, #ff00c8, #00ffe0, #ffd700, #ff00c8);
+  background-size: 800% 800%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.menu-container, .game-header {
+.menu-container,
+.game-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,14 +75,14 @@ body.dark .input-styled {
   border-radius: 12px;
   color: white;
   background: var(--gradient);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .btn-3d:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn-3d:active {
@@ -135,9 +148,18 @@ body.dark .info-box {
 }
 
 @keyframes pop {
-  0% { opacity: 0; transform: scale(0.3); }
-  50% { opacity: 1; transform: scale(1.4); }
-  100% { opacity: 0; transform: scale(0.3); }
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
 }
 
 .high-score-box {
