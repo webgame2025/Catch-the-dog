@@ -36,9 +36,9 @@ h1.title-3d {
   white-space: nowrap;
   text-align: center;
   margin-top: 1rem;
-  color: #fff;
-  text-shadow: 2px 2px 0 #9c27b0, 4px 4px 0 #7b1fa2;
-  animation: hueRotate 5s infinite linear;
+  color: #ff4081;
+  text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
+  animation: colorShift 4s infinite ease-in-out;
 }
 
 @keyframes hueRotate {
