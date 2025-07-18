@@ -56,6 +56,17 @@
 
   <script src="script_menu.js"></script>
 
-   
+  <!-- Other scripts -->
+  <script src="script_menu.js"></script> <!-- or script_game.js in game.html -->
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("✅ Service Worker registered"))
+        .catch(err => console.error("❌ Service Worker error:", err));
+    }
+  </script>
+</body>
+</html> 
 </body>
 </html>
