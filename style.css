@@ -1,266 +1,240 @@
-:root {
-  --primary-color: #7e57c2;
-  --secondary-color: #9575cd;
-  --accent-color: #d1c4e9;
-  --dark-bg: #1a1a2e;
-  --light-bg: #f3e5f5;
-  --text-light: #ffffff;
-  --text-dark: #1a1a1a;
-  --gradient: linear-gradient(145deg, #9c27b0, #7b1fa2);
+let score = 0;
+let timeLeft = 60;
+let isPaused = false;
+let gameTimer, popInterval;
+let holes = [];
+let popSpeed = 500;
+
+let isSoundOn = localStorage.getItem('sound') !== 'off';
+
+// Sound setup
+const catchSound = new Audio('catch.mp3');
+const bgMusic = new Audio('bgmusic.mp3');
+const clickSound = new Audio('click.mp3');
+bgMusic.loop = true;
+
+catchSound.volume = 1;
+bgMusic.volume = 1;
+clickSound.volume = 1;
+
+// Error logging
+catchSound.onerror = () => console.error('❌ Failed to load catch.mp3');
+bgMusic.onerror = () => console.error('❌ Failed to load bgmusic.mp3');
+clickSound.onerror = () => console.error('❌ Failed to load click.mp3');
+
+const scoreDisplay = document.getElementById('score');
+const timerDisplay = document.getElementById('timer');
+const pauseBtn = document.getElementById('pauseBtn');
+const replayBtn = document.getElementById('replayBtn');
+const backBtn = document.getElementById('backToMenuBtn');
+const soundToggleBtn = document.getElementById('soundToggleBtn');
+const gameArea = document.getElementById('gameArea');
+
+// New popup elements
+const gameOverPopup = document.getElementById('gameOverPopup');
+const finalScoreSpan = document.getElementById('finalScore');
+const restartBtn = document.getElementById('restartBtn');
+const menuBtn = document.getElementById('menuBtn');
+
+function getHighScores() {
+  return JSON.parse(localStorage.getItem('highScores') || '[]');
 }
 
-body {
-  margin: 0;
-  font-family: 'Orbitron', sans-serif;
-  background: var(--light-bg);
-  color: var(--text-dark);
-  transition: all 0.4s ease;
-  overflow-x: hidden;
+function saveHighScore(name, score) {
+  const scores = getHighScores();
+  scores.push({ name, score });
+  scores.sort((a, b) => b.score - a.score);
+  localStorage.setItem('highScores', JSON.stringify(scores.slice(0, 5)));
 }
 
-body.dark {
-  background: var(--dark-bg);
-  color: var(--text-light);
-}
+function createHoles() {
+  gameArea.innerHTML = '';
+  holes = [];
+  for (let i = 0; i < 9; i++) {
+    const hole = document.createElement('div');
+    hole.classList.add('hole');
 
-.menu-container,
-.game-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
+    const cat = document.createElement('div');
+    cat.classList.add('cat');
+    hole.appendChild(cat);
 
-h1.dynamic-title {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  white-space: nowrap;
-  text-align: center;
-  margin-top: 1rem;
-  color: #ff4081;
-  text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
-  animation: vibrantColorShift 4s infinite ease-in-out;
-}
+    cat.addEventListener('click', () => {
+      if (!cat.classList.contains('hit')) {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        cat.classList.add('hit');
 
-@keyframes vibrantColorShift {
-  0% {
-    color: #ff4081;
-    text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
-  }
-  25% {
-    color: #e040fb;
-    text-shadow: 2px 2px 0 #ff6e40, 4px 4px 0 #f50057;
-  }
-  50% {
-    color: #40c4ff;
-    text-shadow: 2px 2px 0 #ffea00, 4px 4px 0 #00e676;
-  }
-  75% {
-    color: #ffab40;
-    text-shadow: 2px 2px 0 #d500f9, 4px 4px 0 #00b0ff;
-  }
-  100% {
-    color: #ff4081;
-    text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
-  }
-}
+        if (isSoundOn) {
+          catchSound.currentTime = 0;
+          catchSound.play().catch(err => console.warn('Catch sound blocked:', err));
+        }
 
-.input-styled {
-  padding: 10px 16px;
-  margin: 10px;
-  border-radius: 12px;
-  font-size: 1rem;
-  border: none;
-  outline: none;
-  background: #ede7f6;
-  color: #4a148c;
-  transition: box-shadow 0.3s ease, background 1s ease;
-  box-shadow: 0 0 12px rgba(156, 39, 176, 0.4);
-}
+        const boom = document.createElement('div');
+        boom.classList.add('star');
+        boom.textContent = '💥';
+        cat.appendChild(boom);
 
-.input-styled:focus {
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.5);
-  background: linear-gradient(45deg, #e1bee7, #f3e5f5, #ede7f6);
-}
+        setTimeout(() => {
+          cat.classList.remove('hit', 'up');
+          boom.remove();
+        }, 500);
+      }
+    });
 
-body.dark .input-styled {
-  background: #2f2f4f;
-  color: #fff;
-}
-
-.btn-3d {
-  padding: 12px 20px;
-  margin: 10px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 12px;
-  color: white;
-  background: var(--gradient);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.btn-3d:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.btn-3d:active {
-  transform: scale(0.95);
-}
-
-.btn-3d.animated {
-  background: linear-gradient(270deg, #7e57c2, #d500f9, #00e5ff, #7e57c2);
-  background-size: 800% 800%;
-  animation: pulseGradient 6s ease infinite;
-}
-
-@keyframes pulseGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
+    gameArea.appendChild(hole);
+    holes.push(cat);
   }
 }
 
-.selectors {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.selectors label {
-  font-weight: bold;
-  display: block;
-  margin-top: 10px;
-}
-
-.info-box {
-  background: #d1c4e9;
-  padding: 10px 20px;
-  margin: 10px;
-  border-radius: 10px;
-  font-weight: bold;
-  color: #4a148c;
-}
-
-body.dark .info-box {
-  background: #322659;
-  color: #fff;
-}
-
-.game-area {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 600px;
-  width: 90vw;
-  margin: auto;
-  margin-top: 20px;
-}
-
-.hole {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: var(--primary-color);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.cat {
-  width: 80px;
-  height: 80px;
-  background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center;
-  background-size: cover;
-  position: absolute;
-  bottom: -80px;
-  transition: bottom 0.3s ease-in-out;
-}
-
-.cat.up {
-  bottom: 0;
-}
-
-.star {
-  position: absolute;
-  top: -10px;
-  font-size: 24px;
-  animation: pop 0.4s ease-out;
-  pointer-events: none;
-}
-
-@keyframes pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.4);
-  }
-  100% {
-    opacity: 0;
-    
-    transform: scale(0.3);
+function randomPop() {
+  if (isPaused) return;
+  const count = localStorage.getItem('gameType') === 'chaos' ? Math.floor(Math.random() * 4) + 2 : 1;
+  for (let i = 0; i < count; i++) {
+    const idx = Math.floor(Math.random() * holes.length);
+    const cat = holes[idx];
+    if (!cat.classList.contains('up') && !cat.classList.contains('hit')) {
+      cat.classList.add('up');
+      setTimeout(() => cat.classList.remove('up'), popSpeed - 60);
+    }
   }
 }
 
-.high-score-box {
-  margin-top: 20px;
-  text-align: center;
+function updateTimer() {
+  if (isPaused) return;
+  timeLeft--;
+  timerDisplay.textContent = `Time: ${timeLeft}`;
+  if (timeLeft <= 0) {
+    clearInterval(gameTimer);
+    clearInterval(popInterval);
+
+    // Show game over popup
+    finalScoreSpan.textContent = score;
+    gameOverPopup.classList.remove('hidden');
+
+    // Disable controls
+    pauseBtn.disabled = true;
+    replayBtn.style.display = 'none';
+
+    bgMusic.pause();
+  }
 }
 
-.high-score-box ul {
-  padding-left: 0;
+function setDifficulty() {
+  const difficulty = localStorage.getItem('difficulty');
+  if (difficulty === 'easy') {
+    timeLeft = 70;
+    popSpeed = 650;
+  } else if (difficulty === 'medium') {
+    timeLeft = 60;
+    popSpeed = 500;
+  } else if (difficulty === 'hard') {
+    timeLeft = 45;
+    popSpeed = 350;
+  }
 }
 
-.high-score-box li {
-  list-style: none;
-  
-  margin: 5px 0;
+function startGame() {
+  score = 0;
+  isPaused = false;
+  setDifficulty();
+  scoreDisplay.textContent = `Score: ${score}`;
+  timerDisplay.textContent = `Time: ${timeLeft}`;
+  createHoles();
+
+  // Hide popup if visible
+  gameOverPopup.classList.add('hidden');
+
+  pauseBtn.disabled = false;
+  replayBtn.style.display = 'inline-block';
+
+  gameTimer = setInterval(updateTimer, 1000);
+  popInterval = setInterval(randomPop, popSpeed);
+
+  if (isSoundOn) {
+    bgMusic.currentTime = 0;
+    bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+  }
 }
 
-.hidden {
-  display: none;
-}
+pauseBtn.addEventListener('click', () => {
+  isPaused = !isPaused;
+  pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
 
-/* Facebook Link Styling */
-a.facebook-link {
-  color: #ab47bc;
-  text-decoration: none;
-  font-weight: bold;
-  margin-top: 30px;
-  display: inline-block;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-  
-}
+  if (isSoundOn) {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
+  }
 
-a.facebook-link:hover {
-  color: #d500f9;
-  text-shadow: 0 0 5px #d500f9, 0 0 10px #00e5ff;
-}
+  if (isPaused) {
+    bgMusic.pause();
+  } else {
+    if (isSoundOn) {
+      bgMusic.play().catch(err => console.warn('bgMusic resume blocked:', err));
+    }
+  }
+});
 
+replayBtn.addEventListener('click', () => {
+  if (isSoundOn) {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
+  }
 
+  clearInterval(gameTimer);
+  clearInterval(popInterval);
+  startGame();
+});
 
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #eee;
-  border: 2px solid #333;
-  padding: 20px;
-  text-align: center;
-  z-index: 1000;
-}
+backBtn.addEventListener('click', () => {
+  if (isSoundOn) {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
+  }
 
-.hidden {
-  display: none;
-}
+  bgMusic.pause();
+  window.location.href = 'index.html';
+});
+
+soundToggleBtn.addEventListener('click', () => {
+  isSoundOn = !isSoundOn;
+  localStorage.setItem('sound', isSoundOn ? 'on' : 'off');
+  soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
+
+  if (!isSoundOn) {
+    bgMusic.pause();
+  } else {
+    bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+    clickSound.currentTime = 0;
+    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
+  }
+});
+
+// Popup buttons
+restartBtn.addEventListener('click', () => {
+  gameOverPopup.classList.add('hidden');
+  pauseBtn.disabled = false;
+  startGame();
+});
+
+menuBtn.addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('darkMode') === 'on') {
+    document.body.classList.add('dark');
+  }
+
+  soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
+
+  ['click', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      if (isSoundOn) {
+        bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+      }
+      startGame();
+    }, { once: true });
+  });
+
+  timerDisplay.textContent = "Click to Start";
+});
