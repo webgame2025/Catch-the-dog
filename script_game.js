@@ -145,7 +145,7 @@ replayBtn.addEventListener('click', () => {
   clickSound.play().catch(() => {});
   clearInterval(gameTimer);
   clearInterval(popInterval);
-  startGame();
+
 });
 
 backBtn.addEventListener('click', () => {
