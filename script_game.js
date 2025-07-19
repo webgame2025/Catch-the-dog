@@ -3,7 +3,7 @@ let timeLeft = 60;
 let isPaused = false;
 let gameTimer, popInterval;
 let holes = [];
-let popSpeed = 400;
+let popSpeed = 500;
 
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
@@ -65,7 +65,7 @@ function randomPop() {
     const cat = holes[idx];
     if (!cat.classList.contains('up') && !cat.classList.contains('hit')) {
       cat.classList.add('up');
-      setTimeout(() => cat.classList.remove('up'), popSpeed - 50);
+      setTimeout(() => cat.classList.remove('up'), popSpeed - 60);
     }
   }
 }
@@ -85,9 +85,9 @@ function updateTimer() {
 
 function setDifficulty() {
   const difficulty = localStorage.getItem('difficulty');
-  if (difficulty === 'easy') { timeLeft = 70; popSpeed = 600; }
-  else if (difficulty === 'medium') { timeLeft = 60; popSpeed = 400; }
-  else if (difficulty === 'hard') { timeLeft = 45; popSpeed = 250; }
+  if (difficulty === 'easy') { timeLeft = 70; popSpeed = 650; }
+  else if (difficulty === 'medium') { timeLeft = 60; popSpeed = 500; }
+  else if (difficulty === 'hard') { timeLeft = 45; popSpeed = 350; }
 }
 
 function startGame() {
