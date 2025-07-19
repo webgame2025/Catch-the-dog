@@ -13,7 +13,7 @@ const clickSound = new Audio('click.mp3');
 bgMusic.loop = true;
 
 catchSound.volume = 1;
-bgMusic.volume = 1;
+bgMusic.volume = 2;
 clickSound.volume = 1;
 
 const scoreDisplay = document.getElementById('score');
