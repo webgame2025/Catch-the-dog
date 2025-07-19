@@ -80,7 +80,6 @@ function randomPop() {
 function showGameOverPopup() {
   finalScoreSpan.textContent = score;
   gameOverPopup.classList.remove('hidden');
-  startGameBtn.style.display = 'inline-block';
 }
 
 function hideGameOverPopup() {
@@ -125,6 +124,7 @@ function startGame() {
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
   replayBtn.style.display = 'inline-block';
+  startGameBtn.style.display = 'none'; // ✅ Hide Start button after game starts
   if (isSoundOn) {
     bgMusic.currentTime = 0;
     bgMusic.play().catch(() => {});
@@ -182,9 +182,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 if (startGameBtn) {
   startGameBtn.addEventListener('click', () => {
-    startGameBtn.style.display = 'none';
-    replayBtn.style.display = 'inline-block';
-    bgMusic.play().catch(() => {});
+    clickSound.play().catch(() => {});
     startGame();
   });
-}
+  }
