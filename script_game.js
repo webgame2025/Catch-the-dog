@@ -124,7 +124,7 @@ function startGame() {
   createHoles();
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
-  replayBtn.style.display = 'click';
+  replayBtn.style.display = 'inline-block';
   if (isSoundOn) {
     bgMusic.currentTime = 0;
     bgMusic.play().catch(() => {});
