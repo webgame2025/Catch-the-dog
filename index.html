@@ -1,69 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Whack the Dog! - Menu</title>
-  <link rel="icon" href="icon.png" type="image/png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#7e57c2" />
-</head>
-<body>
-  <div class="menu-container">
-    <big><b><h1 class="dynamic-title">Whack the Dog!</h1></b></big>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+  <title>Whack the Dog! - Menu</title>  
+  <link rel="icon" href="icon.png" type="image/png"/>  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet"/>  
+  <link rel="stylesheet" href="style.css"/>  
+  <link rel="manifest" href="manifest.json" />  
+<meta name="theme-color" content="#7e57c2" />  
+</head>  
+<body>  
+  <div class="menu-container">  
+   <big><b><h1 class="dynamic-title">Whack the Dog!</h1></b> </big>  <br>
 
-    <br>
-    <h4> Write Down You Name Here 👇</h4>
-    <input type="text" id="playerName" placeholder="Enter your name" class="input-styled glow"/>
+<h4> Write Down You Name Here 👇</h4>  
+    <input type="text" id="playerName" placeholder="Enter your name" class="input-styled glow"/>  <div class="button-group">  
+  <button id="startBtn" class="btn-3d animated">Play Game</button>  
+  <button id="darkModeBtn" class="btn-3d"> Dark Mode</button>  
+</div>  
 
-    <div class="button-group">
-      <button id="startBtn" class="btn-3d animated">Play Game</button>
-      <button id="darkModeBtn" class="btn-3d"> Dark Mode</button>
-    </div>
+<div class="selectors">  
+  <label for="gameType">Game Type:</label>  
+  <select id="gameType" class="input-styled glow">  
+    <option value="classic" selected>Classic Mode</option>  
+    <option value="bonus">Bonus Cats</option>  
+    <option value="chaos">Chaos Mode</option>  
+  </select>  
 
-    <div class="selectors">
-      <label for="gameType">Game Type:</label>
-      <select id="gameType" class="input-styled glow">
-        <option value="classic" selected>Classic Mode</option>
-        <option value="bonus">Bonus Cats</option>
-        <option value="chaos">Chaos Mode</option>
-      </select>
+  <label for="difficulty">Difficulty:</label>  
+  <select id="difficulty" class="input-styled glow">  
+    <option value="easy">Easy</option>  
+    <option value="medium" selected>Medium</option>  
+    <option value="hard">Hard</option>  
+  </select>  
+</div>  
 
-      <label for="difficulty">Difficulty:</label>
-      <select id="difficulty" class="input-styled glow">
-        <option value="easy">Easy</option>
-        <option value="medium" selected>Medium</option>
-        <option value="hard">Hard</option>
-      </select>
-    </div>
+<div class="high-score-box">  
+  <strong>Top 5 High Scores</strong>  
+  <ul id="highScoreList"></ul>  
+</div>
 
-    <div class="high-score-box">
-      <strong>Top 5 High Scores</strong>
-      <ul id="highScoreList"></ul>
-    </div>
-  </div>
-  <br>
-  <footer style="margin-top: 40px; text-align: center;">
-    <a href="https://www.facebook.com/riajul.daian.arpon" target="_blank" style="text-decoration: none; color: #9c27b0; font-weight: bold;">
-      <small> Facebook: <u> Riajul Daian Arpon </u><br>
-      <p> ©2025 <i>@Developer</i> </p> </small>
-    </a>
-  </footer>
-
-  <!-- Audio elements -->
-  <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
-  <audio id="clickSound" src="click.mp3"></audio>
-
-  <script src="script_menu.js"></script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("✅ Service Worker registered"))
-        .catch(err => console.error("❌ Service Worker error:", err));
-    }
-  </script>
-</body>
-</html>
+  </div>  
+  <br>  
+  <footer style="margin-top: 40px; text-align: center;">  
+    <a href="https://www.facebook.com/riajul.daian.arpon" target="_blank" style="text-decoration: none; color: #9c27b0; font-weight: bold;">  
+     <small> Facebook: <u> Riajul Daian Arpon </u><br>  
+    <p> ©2025 <i>@Developer</i> </p> </small>  
+    </a>  
+  </footer>    <script src="script_menu.js"></script>    <!-- Other scripts -->    <script src="script_menu.js"></script> <!-- or script_game.js in game.html -->    <script>  
+    if ("serviceWorker" in navigator) {  
+      navigator.serviceWorker.register("service-worker.js")  
+        .then(() => console.log("✅ Service Worker registered"))  
+        .catch(err => console.error("❌ Service Worker error:", err));  
+    }  
+  </script>  </body>  
+</html> 
