@@ -1,3 +1,7 @@
+/* ✅ Remove blue tap highlight globally on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 /* 👉 Variable definitions */
 :root {
   --primary-color: #7e57c2;
