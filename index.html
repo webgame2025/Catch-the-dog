@@ -3,231 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Whack the Cat!</title>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/616/616408.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#6a1b9a">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: #f3e5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-      overflow: hidden;
-      cursor: url('https://cdn-icons-png.flaticon.com/512/471/471713.png') 32 32, auto;
-      padding-top: 30px;
-    }
-
-    h1 { color: #6a1b9a; }
-
-    #menu {
-      text-align: center;
-    }
-
-    #score, #timer, #highScore {
-      font-size: 1.3rem;
-      margin: 8px;
-    }
-
-    #startBtn {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background: #6a1b9a;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    select {
-      padding: 6px 12px;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: 1px solid #6a1b9a;
-      margin-top: 10px;
-    }
-
-    #gameArea {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 20px;
-      width: 90vw;
-      max-width: 600px;
-      margin-top: 20px;
-    }
-
-    .hole {
-      width: 100px;
-      height: 100px;
-      background: #4a148c;
-      border-radius: 50%;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .cat {
-      width: 80px;
-      height: 80px;
-      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center;
-      background-size: cover;
-      position: absolute;
-      bottom: -80px;
-      transition: bottom 0.25s ease-in-out;
-    }
-
-    .cat.up { bottom: 0; }
-
-    .star {
-      position: absolute;
-      top: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 24px;
-      animation: spin 0.6s linear;
-      pointer-events: none;
-    }
-
-    @keyframes spin {
-      0% { transform: translateX(-50%) rotate(0deg); }
-      100% { transform: translateX(-50%) rotate(360deg); }
-    }
-  </style>
+  <title>Whack the Dog! - Menu</title>
+  <link rel="icon" href="icon.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#7e57c2" />
 </head>
 <body>
-  <h1>Whack the Cat!</h1>
-  <div id="menu">
-    <div id="highScore">High Score: 0</div>
-    <select id="difficulty">
-      <option value="easy">Easy</option>
-      <option value="medium" selected>Medium</option>
-      <option value="hard">Hard</option>
-    </select>
-    <div id="score">Score: 0</div>
-    <div id="timer">Time: 60</div>
-    <button id="startBtn">Start Game</button>
+  <div class="menu-container">
+   <big><b><h1 class="dynamic-title">Whack the Dog!</h1></b> </big>
+    
+  
+    <br>
+<h4> Write Down You Name Here 👇</h4>
+    <input type="text" id="playerName" placeholder="Enter your name" class="input-styled glow"/>
+
+    <div class="button-group">
+      <button id="startBtn" class="btn-3d animated">Play Game</button>
+      <button id="darkModeBtn" class="btn-3d"> Dark Mode</button>
+    </div>
+
+    <div class="selectors">
+      <label for="gameType">Game Type:</label>
+      <select id="gameType" class="input-styled glow">
+        <option value="classic" selected>Classic Mode</option>
+        <option value="bonus">Bonus Cats</option>
+        <option value="chaos">Chaos Mode</option>
+      </select>
+
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty" class="input-styled glow">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
+    <div class="high-score-box">
+      <strong>Top 5 High Scores</strong>
+      <ul id="highScoreList"></ul>
+    </div>
   </div>
-  <div id="gameArea"></div>
-  <audio id="hitSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_12be3ce240.mp3?filename=click-124467.mp3"></audio>
+  <br>
+  <footer style="margin-top: 40px; text-align: center;">
+    <a href="https://www.facebook.com/riajul.daian.arpon" target="_blank" style="text-decoration: none; color: #9c27b0; font-weight: bold;">
+     <small> Facebook: <u> Riajul Daian Arpon </u><br>
+    <p> ©2025 <i>@Developer</i> </p> </small>
+    </a>
+  </footer>
+
+  <script src="script_menu.js"></script>
+
+  <!-- Other scripts -->
+  <script src="script_menu.js"></script> <!-- or script_game.js in game.html -->
 
   <script>
-    const scoreDisplay = document.getElementById('score');
-    const timerDisplay = document.getElementById('timer');
-    const highScoreDisplay = document.getElementById('highScore');
-    const startBtn = document.getElementById('startBtn');
-    const gameArea = document.getElementById('gameArea');
-    const hitSound = document.getElementById('hitSound');
-    const difficulty = document.getElementById('difficulty');
-
-    let score = 0, timeLeft = 60, gameTimer, popInterval, holes = [];
-    let popSpeed = 400;
-
-    function getHighScore() {
-      return localStorage.getItem('highScore') || 0;
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("✅ Service Worker registered"))
+        .catch(err => console.error("❌ Service Worker error:", err));
     }
-
-    function setHighScore(val) {
-      localStorage.setItem('highScore', val);
-    }
-
-    function updateHighScoreDisplay() {
-      highScoreDisplay.textContent = `High Score: ${getHighScore()}`;
-    }
-
-    function createHoles() {
-      gameArea.innerHTML = '';
-      holes = [];
-      for (let i = 0; i < 9; i++) {
-        const hole = document.createElement('div');
-        hole.classList.add('hole');
-
-        const cat = document.createElement('div');
-        cat.classList.add('cat');
-        hole.appendChild(cat);
-
-        cat.addEventListener('click', () => {
-          if (!cat.classList.contains('hit')) {
-            score++;
-            scoreDisplay.textContent = `Score: ${score}`;
-            cat.classList.add('hit');
-            hitSound.play();
-
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.textContent = '💥';
-            cat.appendChild(star);
-
-            setTimeout(() => {
-              cat.classList.remove('hit', 'up');
-              star.remove();
-            }, 400);
-          }
-        });
-
-        gameArea.appendChild(hole);
-        holes.push(cat);
-      }
-    }
-
-    function randomPop() {
-      const idx = Math.floor(Math.random() * holes.length);
-      const cat = holes[idx];
-      if (cat.classList.contains('up') || cat.classList.contains('hit')) return;
-      cat.classList.add('up');
-      setTimeout(() => cat.classList.remove('up'), popSpeed - 50);
-    }
-
-    function updateTimer() {
-      timeLeft--;
-      timerDisplay.textContent = `Time: ${timeLeft}`;
-      if (timeLeft <= 0) {
-        clearInterval(gameTimer);
-        clearInterval(popInterval);
-        alert(`Time's up! Your score: ${score}`);
-        if (score > getHighScore()) setHighScore(score);
-        updateHighScoreDisplay();
-        startBtn.disabled = false;
-      }
-    }
-
-    function setDifficulty() {
-      switch (difficulty.value) {
-        case 'easy':
-          timeLeft = 70;
-          popSpeed = 600;
-          break;
-        case 'medium':
-          timeLeft = 60;
-          popSpeed = 400;
-          break;
-        case 'hard':
-          timeLeft = 45;
-          popSpeed = 250;
-          break;
-      }
-    }
-
-    function startGame() {
-      score = 0;
-      setDifficulty();
-      scoreDisplay.textContent = `Score: ${score}`;
-      timerDisplay.textContent = `Time: ${timeLeft}`;
-      startBtn.disabled = true;
-      createHoles();
-      gameTimer = setInterval(updateTimer, 1000);
-      popInterval = setInterval(randomPop, popSpeed);
-    }
-
-    startBtn.addEventListener('click', startGame);
-    updateHighScoreDisplay();
   </script>
-  <h4>Riajul Daian Arpon</h4>
 </body>
 </html>
