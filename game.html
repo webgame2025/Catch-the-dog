@@ -9,20 +9,19 @@
 </head>
 <body>
   <div class="game-header">
-    
     <div id="score" class="info-box">Score: 0</div>
     <div id="timer" class="info-box">Time: 60</div>
     <div class="game-controls">
-      
-      <button id="startGameBtn" class="btn-3d">Start🎮</button><p align="right" > <button id="soundToggleBtn" class="btn-3d">Sound:On</button></p>
+      <button id="startGameBtn" class="btn-3d">Start 🎮</button>
       <button id="pauseBtn" class="btn-3d">Pause</button>
-    <button id="replayBtn" class="btn-3d">Restart</button>
-      <p align="center"><button id="backToMenuBtn" class="btn-3d">↩️Menu</button></p>
-      
+      <button id="replayBtn" class="btn-3d">Restart</button>
+      <button id="soundToggleBtn" class="btn-3d">Sound: On</button>
+      <button id="backToMenuBtn" class="btn-3d">↩️ Menu</button>
+    </div>
   </div>
 
   <div id="gameArea" class="game-area"></div>
-    
+
   <!-- Game Over Popup -->
   <div id="gameOverPopup" class="hidden popup-container">
     <h2>Game Over</h2>
@@ -32,13 +31,5 @@
   </div>
 
   <script src="script_game.js"></script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("✅ Service Worker registered"))
-        .catch(err => console.error("❌ Service Worker error:", err));
-    }
-  </script>
 </body>
 </html>
