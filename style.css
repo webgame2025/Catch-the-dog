@@ -1,4 +1,3 @@
-
 :root {
   --primary-color: #7e57c2;
   --secondary-color: #9575cd;
@@ -208,7 +207,6 @@ body.dark .info-box {
   }
   100% {
     opacity: 0;
-    
     transform: scale(0.3);
   }
 }
@@ -224,7 +222,6 @@ body.dark .info-box {
 
 .high-score-box li {
   list-style: none;
-  
   margin: 5px 0;
 }
 
@@ -240,10 +237,57 @@ a.facebook-link {
   margin-top: 30px;
   display: inline-block;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  
 }
 
 a.facebook-link:hover {
   color: #d500f9;
   text-shadow: 0 0 5px #d500f9, 0 0 10px #00e5ff;
+}
+
+/* Popup container style */
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(145deg, #7e57c2, #d500f9);
+  border-radius: 20px;
+  padding: 30px 40px;
+  box-shadow:
+    0 0 15px #d500f9,
+    0 0 30px #7e57c2,
+    0 0 50px #d500f9,
+    inset 0 0 10px #fff3ff;
+  color: white;
+  text-align: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: 300px;
+}
+
+.popup-container:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #fff;
+}
+
+.popup-container p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+  text-shadow: 0 0 6px #e1bee7;
+}
+
+.popup-container .btn-3d {
+  min-width: 130px;
+  margin: 0 10px;
+  font-weight: bold;
 }
