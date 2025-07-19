@@ -190,7 +190,6 @@ window.addEventListener('DOMContentLoaded', () => {
   startGameBtn.addEventListener('click', () => {
     clickSound.play().catch(() => {});
     startGame();
-  });
 });
   // ✅ Preload the game layout
   createHoles();
