@@ -13,7 +13,7 @@ const clickSound = new Audio('click.mp3');
 bgMusic.loop = true;
 
 catchSound.volume = 1;
-bgMusic.volume = 2;
+bgMusic.volume = 1; // safer volume level
 clickSound.volume = 1;
 
 const scoreDisplay = document.getElementById('score');
@@ -121,10 +121,12 @@ function startGame() {
   scoreDisplay.textContent = `Score: ${score}`;
   timerDisplay.textContent = `Time: ${timeLeft}`;
   createHoles();
+  clearInterval(gameTimer);
+  clearInterval(popInterval);
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
   replayBtn.style.display = 'inline-block';
-  startGameBtn.style.display = 'none'; // ✅ Hide Start button after game starts
+  startGameBtn.style.display = 'none';
   if (isSoundOn) {
     bgMusic.currentTime = 0;
     bgMusic.play().catch(() => {});
@@ -182,7 +184,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 if (startGameBtn) {
   startGameBtn.addEventListener('click', () => {
+    console.log("✅ Start button clicked");
     clickSound.play().catch(() => {});
     startGame();
   });
-  }
+}
