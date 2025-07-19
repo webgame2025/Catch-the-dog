@@ -182,6 +182,7 @@ body.dark .info-box {
   position: absolute;
   bottom: -80px;
   transition: bottom 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .cat.up {
@@ -244,50 +245,55 @@ a.facebook-link:hover {
   text-shadow: 0 0 5px #d500f9, 0 0 10px #00e5ff;
 }
 
-/* Popup container style */
+/* Popup container */
 .popup-container {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  background: linear-gradient(145deg, #7e57c2, #d500f9);
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #7e57c2, #d500f9, #00e5ff);
+  background-size: 300% 300%;
+  animation: pulseGradient 6s ease infinite;
+  padding: 30px 50px;
   border-radius: 20px;
-  padding: 30px 40px;
-  box-shadow:
-    0 0 15px #d500f9,
-    0 0 30px #7e57c2,
-    0 0 50px #d500f9,
-    inset 0 0 10px #fff3ff;
-  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   text-align: center;
+  color: white;
   z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  width: 300px;
-}
-
-.popup-container:not(.hidden) {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
+  user-select: none;
 }
 
 .popup-container h2 {
+  margin-bottom: 10px;
   font-size: 2.5rem;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px #fff;
+  text-shadow: 2px 2px 6px #00000088;
 }
 
 .popup-container p {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-  font-weight: 600;
-  text-shadow: 0 0 6px #e1bee7;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 4px #000000aa;
 }
 
-.popup-container .btn-3d {
-  min-width: 130px;
+.popup-container button {
   margin: 0 10px;
+  padding: 12px 25px;
+  font-size: 1.25rem;
   font-weight: bold;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(45deg, #ff4081, #f50057);
+  box-shadow: 0 4px 10px #f50057;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.popup-container button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px #ff4081;
+}
+
+.popup-container button:active {
+  transform: scale(0.95);
 }
