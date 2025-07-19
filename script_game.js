@@ -121,7 +121,7 @@ function startGame() {
   scoreDisplay.textContent = `Score: ${score}`;
   timerDisplay.textContent = `Time: ${timeLeft}`;
   createHoles();
-  gameArea.classList.remove('inactive'); // ✅ Enable interaction
+  gameArea.classList.remove('inactive');
   clearInterval(gameTimer);
   clearInterval(popInterval);
   gameTimer = setInterval(updateTimer, 1000);
@@ -184,13 +184,10 @@ window.addEventListener('DOMContentLoaded', () => {
   soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
   timerDisplay.textContent = "Click Start to Play";
 
-  createHoles(); // Preload holes
+  createHoles();
 
-  // ✅ Start Game button setup
   startGameBtn.addEventListener('click', () => {
     clickSound.play().catch(() => {});
     startGame();
-});
-  // ✅ Preload the game layout
-  createHoles();
+  });
 });
