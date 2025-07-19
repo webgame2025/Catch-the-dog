@@ -5,13 +5,18 @@ let gameTimer, popInterval;
 let holes = [];
 let popSpeed = 500;
 
-// Sound effects
-const catchSound = new Audio('sounds/catch.mp3');
-const bgMusic = new Audio('sounds/bgmusic.mp3');
-bgMusic.loop = true; // Loop background music
+// Sound effects (fixed paths)
+const catchSound = new Audio('catch.mp3');
+const bgMusic = new Audio('bgmusic.mp3');
+const clickSound = new Audio('click.mp3');
 
-// Optional click sound (if you want it)
-const clickSound = new Audio('sounds/click.mp3');
+// Loop background music
+bgMusic.loop = true;
+
+// Optional error logging
+catchSound.onerror = () => console.error('❌ Failed to load catch.mp3');
+bgMusic.onerror = () => console.error('❌ Failed to load bgmusic.mp3');
+clickSound.onerror = () => console.error('❌ Failed to load click.mp3');
 
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
@@ -50,7 +55,7 @@ function createHoles() {
 
         // Play catch sound
         catchSound.currentTime = 0;
-        catchSound.play();
+        catchSound.play().catch(err => console.warn('Catch sound blocked:', err));
 
         const boom = document.createElement('div');
         boom.classList.add('star');
@@ -92,15 +97,22 @@ function updateTimer() {
     alert(`Time's up! ${localStorage.getItem('playerName') || 'Player'} scored: ${score}`);
     saveHighScore(localStorage.getItem('playerName') || 'Anonymous', score);
     replayBtn.style.display = 'inline-block';
-    bgMusic.pause(); // Stop music at end
+    bgMusic.pause();
   }
 }
 
 function setDifficulty() {
   const difficulty = localStorage.getItem('difficulty');
-  if (difficulty === 'easy') { timeLeft = 70; popSpeed = 650; }
-  else if (difficulty === 'medium') { timeLeft = 60; popSpeed = 500; }
-  else if (difficulty === 'hard') { timeLeft = 45; popSpeed = 350; }
+  if (difficulty === 'easy') {
+    timeLeft = 70;
+    popSpeed = 650;
+  } else if (difficulty === 'medium') {
+    timeLeft = 60;
+    popSpeed = 500;
+  } else if (difficulty === 'hard') {
+    timeLeft = 45;
+    popSpeed = 350;
+  }
 }
 
 function startGame() {
@@ -113,29 +125,28 @@ function startGame() {
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
 
-  // Start background music after user interaction
+  // Reset and play background music
   bgMusic.currentTime = 0;
-  bgMusic.play();
+  bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
 }
 
 pauseBtn.addEventListener('click', () => {
   isPaused = !isPaused;
   pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
 
-  // Optional click sound
   clickSound.currentTime = 0;
-  clickSound.play();
+  clickSound.play().catch(err => console.warn('clickSound blocked:', err));
 
   if (isPaused) {
     bgMusic.pause();
   } else {
-    bgMusic.play();
+    bgMusic.play().catch(err => console.warn('bgMusic resume blocked:', err));
   }
 });
 
 replayBtn.addEventListener('click', () => {
   clickSound.currentTime = 0;
-  clickSound.play();
+  clickSound.play().catch(err => console.warn('clickSound blocked:', err));
 
   clearInterval(gameTimer);
   clearInterval(popInterval);
@@ -144,7 +155,7 @@ replayBtn.addEventListener('click', () => {
 
 backBtn.addEventListener('click', () => {
   clickSound.currentTime = 0;
-  clickSound.play();
+  clickSound.play().catch(err => console.warn('clickSound blocked:', err));
 
   bgMusic.pause();
   window.location.href = 'index.html';
@@ -155,11 +166,13 @@ window.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('dark');
   }
 
-  // Wait for user to click before starting game and music
-  document.addEventListener('click', () => {
-    bgMusic.play(); // Now allowed after click
-    startGame();
-  }, { once: true });
+  // Safe user-triggered start for audio and game
+  ['click', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+      startGame();
+    }, { once: true });
+  });
 
   timerDisplay.textContent = "Click to Start";
 });
