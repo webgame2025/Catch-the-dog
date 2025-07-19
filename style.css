@@ -157,9 +157,16 @@ body.dark .info-box {
   bottom: -80px;
   transition: bottom 0.3s ease-in-out;
   cursor: pointer;
+  outline: none; /* ✅ Added to remove focus border */
 }
 .cat.up {
   bottom: 0;
+}
+.cat:focus {
+  outline: none; /* ✅ Extra protection from blue border */
+}
+.cat:focus-visible {
+  outline: none; /* ✅ For keyboard vs touch */
 }
 .star {
   position: absolute;
@@ -252,4 +259,4 @@ a.facebook-link:hover {
 /* 🧩 Utility */
 .hidden {
   display: none;
-}
+  }
