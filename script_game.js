@@ -5,6 +5,14 @@ let gameTimer, popInterval;
 let holes = [];
 let popSpeed = 500;
 
+// Sound effects
+const catchSound = new Audio('sounds/catch.mp3');
+const bgMusic = new Audio('sounds/bgmusic.mp3');
+bgMusic.loop = true; // Loop background music
+
+// Optional click sound (if you want it)
+const clickSound = new Audio('sounds/click.mp3');
+
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
 const pauseBtn = document.getElementById('pauseBtn');
@@ -39,6 +47,10 @@ function createHoles() {
         score++;
         scoreDisplay.textContent = `Score: ${score}`;
         cat.classList.add('hit');
+
+        // Play catch sound
+        catchSound.currentTime = 0;
+        catchSound.play();
 
         const boom = document.createElement('div');
         boom.classList.add('star');
@@ -80,6 +92,7 @@ function updateTimer() {
     alert(`Time's up! ${localStorage.getItem('playerName') || 'Player'} scored: ${score}`);
     saveHighScore(localStorage.getItem('playerName') || 'Anonymous', score);
     replayBtn.style.display = 'inline-block';
+    bgMusic.pause(); // Stop music at end
   }
 }
 
@@ -99,20 +112,41 @@ function startGame() {
   createHoles();
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
+
+  // Start background music after user interaction
+  bgMusic.currentTime = 0;
+  bgMusic.play();
 }
 
 pauseBtn.addEventListener('click', () => {
   isPaused = !isPaused;
   pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
+
+  // Optional click sound
+  clickSound.currentTime = 0;
+  clickSound.play();
+
+  if (isPaused) {
+    bgMusic.pause();
+  } else {
+    bgMusic.play();
+  }
 });
 
 replayBtn.addEventListener('click', () => {
+  clickSound.currentTime = 0;
+  clickSound.play();
+
   clearInterval(gameTimer);
   clearInterval(popInterval);
   startGame();
 });
 
 backBtn.addEventListener('click', () => {
+  clickSound.currentTime = 0;
+  clickSound.play();
+
+  bgMusic.pause();
   window.location.href = 'index.html';
 });
 
@@ -120,5 +154,9 @@ window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('darkMode') === 'on') {
     document.body.classList.add('dark');
   }
-  startGame();
+  // Wait for user action to start music
+  setTimeout(() => {
+    // optionally delay game start to let UI load
+    startGame();
+  }, 300);
 });
