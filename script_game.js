@@ -145,6 +145,7 @@ function startGame() {
   createHoles();
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
+  replayBtn.style.display = 'none';
 
   if (isSoundOn) {
     bgMusic.currentTime = 0;
@@ -186,7 +187,6 @@ backBtn.addEventListener('click', () => {
     clickSound.currentTime = 0;
     clickSound.play().catch(err => console.warn('clickSound blocked:', err));
   }
-
   bgMusic.pause();
   window.location.href = 'index.html';
 });
@@ -205,10 +205,33 @@ soundToggleBtn.addEventListener('click', () => {
   }
 });
 
-// Popup buttons
+// Game Over Popup buttons
 restartPopupBtn.addEventListener('click', () => {
   hideGameOverPopup();
-  replayBtn.click(); // reuse restart logic
+  replayBtn.click();
 });
 
-menu
+menuPopupBtn.addEventListener('click', () => {
+  hideGameOverPopup();
+  backBtn.click();
+});
+
+// Start game on first user interaction to prevent autoplay issues
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('darkMode') === 'on') {
+    document.body.classList.add('dark');
+  }
+
+  soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
+
+  ['click', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      if (isSoundOn) {
+        bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+      }
+      startGame();
+    }, { once: true });
+  });
+
+  timerDisplay.textContent = "Click to Start";
+});
