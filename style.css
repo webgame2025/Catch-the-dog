@@ -1,3 +1,4 @@
+/* 👉 Variable definitions */
 :root {
   --primary-color: #7e57c2;
   --secondary-color: #9575cd;
@@ -9,6 +10,7 @@
   --gradient: linear-gradient(145deg, #9c27b0, #7b1fa2);
 }
 
+/* 🌗 Dark mode styling */
 body {
   margin: 0;
   font-family: 'Orbitron', sans-serif;
@@ -17,12 +19,12 @@ body {
   transition: all 0.4s ease;
   overflow-x: hidden;
 }
-
 body.dark {
   background: var(--dark-bg);
   color: var(--text-light);
 }
 
+/* 🧩 Layout containers */
 .menu-container,
 .game-header {
   display: flex;
@@ -31,6 +33,7 @@ body.dark {
   padding: 20px;
 }
 
+/* 🎉 Dynamic title animation */
 h1.dynamic-title {
   font-size: clamp(2rem, 6vw, 3.5rem);
   white-space: nowrap;
@@ -40,30 +43,15 @@ h1.dynamic-title {
   text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
   animation: vibrantColorShift 4s infinite ease-in-out;
 }
-
 @keyframes vibrantColorShift {
-  0% {
-    color: #ff4081;
-    text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
-  }
-  25% {
-    color: #e040fb;
-    text-shadow: 2px 2px 0 #ff6e40, 4px 4px 0 #f50057;
-  }
-  50% {
-    color: #40c4ff;
-    text-shadow: 2px 2px 0 #ffea00, 4px 4px 0 #00e676;
-  }
-  75% {
-    color: #ffab40;
-    text-shadow: 2px 2px 0 #d500f9, 4px 4px 0 #00b0ff;
-  }
-  100% {
-    color: #ff4081;
-    text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336;
-  }
+  0% { color: #ff4081; text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336; }
+  25% { color: #e040fb; text-shadow: 2px 2px 0 #ff6e40, 4px 4px 0 #f50057; }
+  50% { color: #40c4ff; text-shadow: 2px 2px 0 #ffea00, 4px 4px 0 #00e676; }
+  75% { color: #ffab40; text-shadow: 2px 2px 0 #d500f9, 4px 4px 0 #00b0ff; }
+  100% { color: #ff4081; text-shadow: 2px 2px 0 #ff9800, 4px 4px 0 #f44336; }
 }
 
+/* ✏️ Inputs */
 .input-styled {
   padding: 10px 16px;
   margin: 10px;
@@ -76,17 +64,16 @@ h1.dynamic-title {
   transition: box-shadow 0.3s ease, background 1s ease;
   box-shadow: 0 0 12px rgba(156, 39, 176, 0.4);
 }
-
 .input-styled:focus {
   box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.5);
   background: linear-gradient(45deg, #e1bee7, #f3e5f5, #ede7f6);
 }
-
 body.dark .input-styled {
   background: #2f2f4f;
   color: #fff;
 }
 
+/* 🟪 Buttons */
 .btn-3d {
   padding: 12px 20px;
   margin: 10px;
@@ -99,45 +86,34 @@ body.dark .input-styled {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
-
 .btn-3d:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-
 .btn-3d:active {
   transform: scale(0.95);
 }
-
 .btn-3d.animated {
   background: linear-gradient(270deg, #7e57c2, #d500f9, #00e5ff, #7e57c2);
   background-size: 800% 800%;
   animation: pulseGradient 6s ease infinite;
 }
-
 @keyframes pulseGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
+/* 📦 Layout blocks */
 .selectors {
   margin-top: 20px;
   text-align: center;
 }
-
 .selectors label {
   font-weight: bold;
   display: block;
   margin-top: 10px;
 }
-
 .info-box {
   background: #d1c4e9;
   padding: 10px 20px;
@@ -146,12 +122,12 @@ body.dark .input-styled {
   font-weight: bold;
   color: #4a148c;
 }
-
 body.dark .info-box {
   background: #322659;
   color: #fff;
 }
 
+/* 🧩 Game grid */
 .game-area {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -161,7 +137,6 @@ body.dark .info-box {
   margin: auto;
   margin-top: 20px;
 }
-
 .hole {
   width: 100px;
   height: 100px;
@@ -173,7 +148,6 @@ body.dark .info-box {
   align-items: flex-end;
   justify-content: center;
 }
-
 .cat {
   width: 80px;
   height: 80px;
@@ -184,11 +158,9 @@ body.dark .info-box {
   transition: bottom 0.3s ease-in-out;
   cursor: pointer;
 }
-
 .cat.up {
   bottom: 0;
 }
-
 .star {
   position: absolute;
   top: -10px;
@@ -196,41 +168,26 @@ body.dark .info-box {
   animation: pop 0.4s ease-out;
   pointer-events: none;
 }
-
 @keyframes pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.4);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(0.3); }
 }
 
+/* 🏆 High Scores */
 .high-score-box {
   margin-top: 20px;
   text-align: center;
 }
-
 .high-score-box ul {
   padding-left: 0;
 }
-
 .high-score-box li {
   list-style: none;
   margin: 5px 0;
 }
 
-.hidden {
-  display: none;
-}
-
-/* Facebook Link Styling */
+/* 💬 Facebook link */
 a.facebook-link {
   color: #ab47bc;
   text-decoration: none;
@@ -239,13 +196,12 @@ a.facebook-link {
   display: inline-block;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
-
 a.facebook-link:hover {
   color: #d500f9;
   text-shadow: 0 0 5px #d500f9, 0 0 10px #00e5ff;
 }
 
-/* Popup container */
+/* 🎯 Popup container */
 .popup-container {
   position: fixed;
   top: 50%;
@@ -262,19 +218,16 @@ a.facebook-link:hover {
   z-index: 1000;
   user-select: none;
 }
-
 .popup-container h2 {
   margin-bottom: 10px;
   font-size: 2.5rem;
   text-shadow: 2px 2px 6px #00000088;
 }
-
 .popup-container p {
   font-size: 1.5rem;
   margin-bottom: 20px;
   text-shadow: 1px 1px 4px #000000aa;
 }
-
 .popup-container button {
   margin: 0 10px;
   padding: 12px 25px;
@@ -288,12 +241,15 @@ a.facebook-link:hover {
   box-shadow: 0 4px 10px #f50057;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
-
 .popup-container button:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px #ff4081;
 }
-
 .popup-container button:active {
   transform: scale(0.95);
+}
+
+/* 🧩 Utility */
+.hidden {
+  display: none;
 }
