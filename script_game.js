@@ -30,6 +30,11 @@ const backBtn = document.getElementById('backToMenuBtn');
 const soundToggleBtn = document.getElementById('soundToggleBtn');
 const gameArea = document.getElementById('gameArea');
 
+const gameOverPopup = document.getElementById('gameOverPopup');
+const finalScoreSpan = document.getElementById('finalScore');
+const restartPopupBtn = document.getElementById('restartBtn');
+const menuPopupBtn = document.getElementById('menuBtn');
+
 function getHighScores() {
   return JSON.parse(localStorage.getItem('highScores') || '[]');
 }
@@ -93,6 +98,15 @@ function randomPop() {
   }
 }
 
+function showGameOverPopup() {
+  finalScoreSpan.textContent = score;
+  gameOverPopup.classList.remove('hidden');
+}
+
+function hideGameOverPopup() {
+  gameOverPopup.classList.add('hidden');
+}
+
 function updateTimer() {
   if (isPaused) return;
   timeLeft--;
@@ -100,10 +114,10 @@ function updateTimer() {
   if (timeLeft <= 0) {
     clearInterval(gameTimer);
     clearInterval(popInterval);
-    alert(`Time's up! ${localStorage.getItem('playerName') || 'Player'} scored: ${score}`);
     saveHighScore(localStorage.getItem('playerName') || 'Anonymous', score);
     replayBtn.style.display = 'inline-block';
     bgMusic.pause();
+    showGameOverPopup();
   }
 }
 
@@ -124,6 +138,7 @@ function setDifficulty() {
 function startGame() {
   score = 0;
   isPaused = false;
+  hideGameOverPopup();
   setDifficulty();
   scoreDisplay.textContent = `Score: ${score}`;
   timerDisplay.textContent = `Time: ${timeLeft}`;
@@ -190,21 +205,10 @@ soundToggleBtn.addEventListener('click', () => {
   }
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('darkMode') === 'on') {
-    document.body.classList.add('dark');
-  }
-
-  soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
-
-  ['click', 'touchstart'].forEach(evt => {
-    document.addEventListener(evt, () => {
-      if (isSoundOn) {
-        bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
-      }
-      startGame();
-    }, { once: true });
-  });
-
-  timerDisplay.textContent = "Click to Start";
+// Popup buttons
+restartPopupBtn.addEventListener('click', () => {
+  hideGameOverPopup();
+  replayBtn.click(); // reuse restart logic
 });
+
+menu
