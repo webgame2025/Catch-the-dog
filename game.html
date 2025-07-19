@@ -9,10 +9,12 @@
 </head>
 <body>
   <div class="game-header">
-    <button id="soundToggleBtn" class="btn-3d">Sound:On</button>
+    
     <div id="score" class="info-box">Score: 0</div>
     <div id="timer" class="info-box">Time: 60</div>
     <div class="game-controls">
+      
+      <button id="startGameBtn" class="btn-3d">Start🎮</button><p align="right" > <button id="soundToggleBtn" class="btn-3d">Sound:On</button></p>
       <button id="pauseBtn" class="btn-3d">Pause</button>
     <button id="replayBtn" class="btn-3d">Restart</button>
       <p align="center"><button id="backToMenuBtn" class="btn-3d">↩️Menu</button></p>
@@ -20,14 +22,13 @@
   </div>
 
   <div id="gameArea" class="game-area"></div>
-    <button id="startGameBtn" class="btn-3d">Start🎮</button>
-
+    
   <!-- Game Over Popup -->
   <div id="gameOverPopup" class="hidden popup-container">
     <h2>Game Over</h2>
     <p>Your Score: <span id="finalScore">0</span></p>
     <button id="restartBtn" class="btn-3d">Restart</button><br>
-    <button id="menuBtn" class="btn-3d">Back to Menu</button>
+    <button id="menuBtn" class="btn-3d">Menu</button>
   </div>
 
   <script src="script_game.js"></script>
