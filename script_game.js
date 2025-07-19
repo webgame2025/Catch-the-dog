@@ -235,3 +235,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   timerDisplay.textContent = "Click to Start";
 });
+
+const startGameBtn = document.getElementById('startGameBtn');
+if (startGameBtn) {
+  startGameBtn.addEventListener('click', () => {
+    startGameBtn.style.display = 'none';
+    startGame();
+  });
+}
