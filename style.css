@@ -157,16 +157,17 @@ body.dark .info-box {
   bottom: -80px;
   transition: bottom 0.3s ease-in-out;
   cursor: pointer;
-  outline: none; /* ✅ Added to remove focus border */
+  outline: none;
+  -webkit-tap-highlight-color: transparent; /* ✅ Prevent blue tap overlay */
 }
 .cat.up {
   bottom: 0;
 }
 .cat:focus {
-  outline: none; /* ✅ Extra protection from blue border */
+  outline: none;
 }
 .cat:focus-visible {
-  outline: none; /* ✅ For keyboard vs touch */
+  outline: none;
 }
 .star {
   position: absolute;
@@ -259,4 +260,4 @@ a.facebook-link:hover {
 /* 🧩 Utility */
 .hidden {
   display: none;
-  }
+}
