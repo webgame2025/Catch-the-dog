@@ -215,31 +215,24 @@ menuPopupBtn.addEventListener('click', () => {
   hideGameOverPopup();
   backBtn.click();
 });
-
-// Start game on first user interaction to prevent autoplay issues
+// Setup when DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('darkMode') === 'on') {
     document.body.classList.add('dark');
   }
 
   soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
-
-  ['click', 'touchstart'].forEach(evt => {
-    document.addEventListener(evt, () => {
-      if (isSoundOn) {
-        bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
-      }
-      startGame();
-    }, { once: true });
-  });
-
-  timerDisplay.textContent = "Click to Start";
+  timerDisplay.textContent = "Click Start to Play";
 });
 
+// Start game only on Start button
 const startGameBtn = document.getElementById('startGameBtn');
 if (startGameBtn) {
   startGameBtn.addEventListener('click', () => {
     startGameBtn.style.display = 'none';
+    if (isSoundOn) {
+      bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+    }
     startGame();
   });
 }
