@@ -182,7 +182,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 if (startGameBtn) {
   startGameBtn.addEventListener('click', () => {
-    startGameBtn.style.display = 'inline-block';
+    startGameBtn.style.display = 'none';
     replayBtn.style.display = 'inline-block';
     bgMusic.play().catch(() => {});
     startGame();
