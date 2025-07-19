@@ -182,8 +182,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 if (startGameBtn) {
   startGameBtn.addEventListener('click', () => {
-    startGameBtn.style.display = 'none';
-    replayBtn.style.display = 'none';
+    startGameBtn.style.display = 'inline-block';
+    replayBtn.style.display = 'inline-block';
     bgMusic.play().catch(() => {});
     startGame();
   });
