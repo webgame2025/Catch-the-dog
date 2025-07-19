@@ -1,3 +1,9 @@
+/* 🔒 Inactive state before Start button is clicked */
+.game-area.inactive .cat {
+  pointer-events: none;
+  opacity: 0.3;
+  filter: grayscale(100%);
+}
 /* ✅ Remove blue tap highlight globally on mobile */
 * {
   -webkit-tap-highlight-color: transparent;
