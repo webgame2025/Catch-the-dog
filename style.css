@@ -207,6 +207,7 @@ body.dark .info-box {
   }
   100% {
     opacity: 0;
+    
     transform: scale(0.3);
   }
 }
@@ -222,6 +223,7 @@ body.dark .info-box {
 
 .high-score-box li {
   list-style: none;
+  
   margin: 5px 0;
 }
 
@@ -237,9 +239,28 @@ a.facebook-link {
   margin-top: 30px;
   display: inline-block;
   transition: color 0.3s ease, text-shadow 0.3s ease;
+  
 }
 
 a.facebook-link:hover {
   color: #d500f9;
   text-shadow: 0 0 5px #d500f9, 0 0 10px #00e5ff;
+}
+
+
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #eee;
+  border: 2px solid #333;
+  padding: 20px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.hidden {
+  display: none;
 }
