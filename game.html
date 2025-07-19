@@ -11,7 +11,8 @@
     <div id="score" class="info-box">Score: 0</div>
     <div id="timer" class="info-box">Time: 60</div>
     <div class="game-controls">
-      <button id="pauseBtn" class="btn-3d">Pause</button>&nbsp;&nbsp;&nbsp;
+      <button id="pauseBtn" class="btn-3d">Pause</button>
+  <button id="soundToggleBtn" class="btn-3d">🔊 Sound: On</button>
       <button id="replayBtn" class="btn-3d">Restart</button>
   <p align="center"> <button id="backToMenuBtn" class="btn-3d">Back to Menu</button></p>
     </div>
@@ -30,7 +31,7 @@
         .catch(err => console.error("❌ Service Worker error:", err));
     }
   </script>
-  <button onclick="catchSound.play().catch(err => console.log('Sound error:', err))">Test Catch Sound</button>
+  
   
 </body>
 </html>
