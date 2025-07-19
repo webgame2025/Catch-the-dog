@@ -8,15 +8,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
   <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#7e57c2" />
+  <meta name="theme-color" content="#7e57c2" />
 </head>
 <body>
   <div class="menu-container">
-   <big><b><h1 class="dynamic-title">Whack the Dog!</h1></b> </big>
+    <big><b><h1 class="dynamic-title">Whack the Dog!</h1></b></big>
     
-  
     <br>
-<h4> Write Down You Name Here 👇</h4>
+    <h4> Write Down You Name Here 👇</h4>
     <input type="text" id="playerName" placeholder="Enter your name" class="input-styled glow"/>
 
     <div class="button-group">
@@ -48,15 +47,16 @@
   <br>
   <footer style="margin-top: 40px; text-align: center;">
     <a href="https://www.facebook.com/riajul.daian.arpon" target="_blank" style="text-decoration: none; color: #9c27b0; font-weight: bold;">
-     <small> Facebook: <u> Riajul Daian Arpon </u><br>
-    <p> ©2025 <i>@Developer</i> </p> </small>
+      <small> Facebook: <u> Riajul Daian Arpon </u><br>
+      <p> ©2025 <i>@Developer</i> </p> </small>
     </a>
   </footer>
 
-  <script src="script_menu.js"></script>
+  <!-- Audio elements -->
+  <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
+  <audio id="clickSound" src="click.mp3"></audio>
 
-  <!-- Other scripts -->
-  <script src="script_menu.js"></script> <!-- or script_game.js in game.html -->
+  <script src="script_menu.js"></script>
 
   <script>
     if ("serviceWorker" in navigator) {
@@ -66,4 +66,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
