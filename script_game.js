@@ -103,13 +103,13 @@ function updateTimer() {
 function setDifficulty() {
   const difficulty = localStorage.getItem('difficulty');
   if (difficulty === 'easy') {
-    timeLeft = 70;
+    timeLeft = 60;
     popSpeed = 650;
   } else if (difficulty === 'medium') {
     timeLeft = 60;
     popSpeed = 500;
   } else if (difficulty === 'hard') {
-    timeLeft = 45;
+    timeLeft = 60;
     popSpeed = 350;
   }
 }
@@ -124,7 +124,7 @@ function startGame() {
   createHoles();
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
-  replayBtn.style.display = 'none';
+  replayBtn.style.display = 'click';
   if (isSoundOn) {
     bgMusic.currentTime = 0;
     bgMusic.play().catch(() => {});
