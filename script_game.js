@@ -154,9 +154,12 @@ window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('darkMode') === 'on') {
     document.body.classList.add('dark');
   }
-  // Wait for user action to start music
-  setTimeout(() => {
-    // optionally delay game start to let UI load
+
+  // Wait for user to click before starting game and music
+  document.addEventListener('click', () => {
+    bgMusic.play(); // Now allowed after click
     startGame();
-  }, 300);
+  }, { once: true });
+
+  timerDisplay.textContent = "Click to Start";
 });
