@@ -7,7 +7,6 @@ let popSpeed = 500;
 
 let isSoundOn = localStorage.getItem('sound') !== 'off';
 
-// Sound setup
 const catchSound = new Audio('catch.mp3');
 const bgMusic = new Audio('bgmusic.mp3');
 const clickSound = new Audio('click.mp3');
@@ -17,11 +16,6 @@ catchSound.volume = 1;
 bgMusic.volume = 1;
 clickSound.volume = 1;
 
-// Error logging
-catchSound.onerror = () => console.error('❌ Failed to load catch.mp3');
-bgMusic.onerror = () => console.error('❌ Failed to load bgmusic.mp3');
-clickSound.onerror = () => console.error('❌ Failed to load click.mp3');
-
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
 const pauseBtn = document.getElementById('pauseBtn');
@@ -29,22 +23,11 @@ const replayBtn = document.getElementById('replayBtn');
 const backBtn = document.getElementById('backToMenuBtn');
 const soundToggleBtn = document.getElementById('soundToggleBtn');
 const gameArea = document.getElementById('gameArea');
-
 const gameOverPopup = document.getElementById('gameOverPopup');
 const finalScoreSpan = document.getElementById('finalScore');
 const restartPopupBtn = document.getElementById('restartBtn');
 const menuPopupBtn = document.getElementById('menuBtn');
-
-function getHighScores() {
-  return JSON.parse(localStorage.getItem('highScores') || '[]');
-}
-
-function saveHighScore(name, score) {
-  const scores = getHighScores();
-  scores.push({ name, score });
-  scores.sort((a, b) => b.score - a.score);
-  localStorage.setItem('highScores', JSON.stringify(scores.slice(0, 5)));
-}
+const startGameBtn = document.getElementById('startGameBtn');
 
 function createHoles() {
   gameArea.innerHTML = '';
@@ -62,10 +45,9 @@ function createHoles() {
         score++;
         scoreDisplay.textContent = `Score: ${score}`;
         cat.classList.add('hit');
-
         if (isSoundOn) {
           catchSound.currentTime = 0;
-          catchSound.play().catch(err => console.warn('Catch sound blocked:', err));
+          catchSound.play().catch(() => {});
         }
 
         const boom = document.createElement('div');
@@ -87,20 +69,18 @@ function createHoles() {
 
 function randomPop() {
   if (isPaused) return;
-  const count = localStorage.getItem('gameType') === 'chaos' ? Math.floor(Math.random() * 4) + 2 : 1;
-  for (let i = 0; i < count; i++) {
-    const idx = Math.floor(Math.random() * holes.length);
-    const cat = holes[idx];
-    if (!cat.classList.contains('up') && !cat.classList.contains('hit')) {
-      cat.classList.add('up');
-      setTimeout(() => cat.classList.remove('up'), popSpeed - 60);
-    }
+  const idx = Math.floor(Math.random() * holes.length);
+  const cat = holes[idx];
+  if (!cat.classList.contains('up') && !cat.classList.contains('hit')) {
+    cat.classList.add('up');
+    setTimeout(() => cat.classList.remove('up'), popSpeed - 60);
   }
 }
 
 function showGameOverPopup() {
   finalScoreSpan.textContent = score;
   gameOverPopup.classList.remove('hidden');
+  startGameBtn.style.display = 'inline-block';
 }
 
 function hideGameOverPopup() {
@@ -114,9 +94,8 @@ function updateTimer() {
   if (timeLeft <= 0) {
     clearInterval(gameTimer);
     clearInterval(popInterval);
-    saveHighScore(localStorage.getItem('playerName') || 'Anonymous', score);
-    replayBtn.style.display = 'inline-block';
     bgMusic.pause();
+    replayBtn.style.display = 'inline-block';
     showGameOverPopup();
   }
 }
@@ -146,47 +125,31 @@ function startGame() {
   gameTimer = setInterval(updateTimer, 1000);
   popInterval = setInterval(randomPop, popSpeed);
   replayBtn.style.display = 'none';
-
   if (isSoundOn) {
     bgMusic.currentTime = 0;
-    bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
+    bgMusic.play().catch(() => {});
   }
 }
 
 pauseBtn.addEventListener('click', () => {
   isPaused = !isPaused;
   pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
-
   if (isSoundOn) {
     clickSound.currentTime = 0;
-    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
+    clickSound.play().catch(() => {});
   }
-
-  if (isPaused) {
-    bgMusic.pause();
-  } else {
-    if (isSoundOn) {
-      bgMusic.play().catch(err => console.warn('bgMusic resume blocked:', err));
-    }
-  }
+  isPaused ? bgMusic.pause() : bgMusic.play().catch(() => {});
 });
 
 replayBtn.addEventListener('click', () => {
-  if (isSoundOn) {
-    clickSound.currentTime = 0;
-    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
-  }
-
+  clickSound.play().catch(() => {});
   clearInterval(gameTimer);
   clearInterval(popInterval);
   startGame();
 });
 
 backBtn.addEventListener('click', () => {
-  if (isSoundOn) {
-    clickSound.currentTime = 0;
-    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
-  }
+  clickSound.play().catch(() => {});
   bgMusic.pause();
   window.location.href = 'index.html';
 });
@@ -195,17 +158,10 @@ soundToggleBtn.addEventListener('click', () => {
   isSoundOn = !isSoundOn;
   localStorage.setItem('sound', isSoundOn ? 'on' : 'off');
   soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
-
-  if (!isSoundOn) {
-    bgMusic.pause();
-  } else {
-    bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
-    clickSound.currentTime = 0;
-    clickSound.play().catch(err => console.warn('clickSound blocked:', err));
-  }
+  isSoundOn ? bgMusic.play().catch(() => {}) : bgMusic.pause();
+  if (isSoundOn) clickSound.play().catch(() => {});
 });
 
-// Game Over Popup buttons
 restartPopupBtn.addEventListener('click', () => {
   hideGameOverPopup();
   replayBtn.click();
@@ -215,24 +171,20 @@ menuPopupBtn.addEventListener('click', () => {
   hideGameOverPopup();
   backBtn.click();
 });
-// Setup when DOM is ready
+
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('darkMode') === 'on') {
     document.body.classList.add('dark');
   }
-
   soundToggleBtn.textContent = isSoundOn ? '🔊 Sound: On' : '🔇 Sound: Off';
   timerDisplay.textContent = "Click Start to Play";
 });
 
-// Start game only on Start button
-const startGameBtn = document.getElementById('startGameBtn');
 if (startGameBtn) {
   startGameBtn.addEventListener('click', () => {
     startGameBtn.style.display = 'none';
-    if (isSoundOn) {
-      bgMusic.play().catch(err => console.warn('bgMusic play blocked:', err));
-    }
+    replayBtn.style.display = 'none';
+    bgMusic.play().catch(() => {});
     startGame();
   });
 }
