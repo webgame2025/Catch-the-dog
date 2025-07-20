@@ -66,5 +66,31 @@
         .catch(err => console.error("❌ Service Worker error:", err));
     }
   </script>
+
+  <script>
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+
+  // Listen for the install prompt event
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block'; // Show the install button
+
+    installBtn.addEventListener('click', () => {
+      installBtn.style.display = 'none'; // Hide button after clicked
+      deferredPrompt.prompt(); // Show the install prompt
+
+      deferredPrompt.userChoice.then((choice) => {
+        if (choice.outcome === 'accepted') {
+          console.log('✅ App installed');
+        } else {
+          console.log('❌ User dismissed the install');
+        }
+        deferredPrompt = null;
+      });
+    });
+  });
+  </script>
 </body>
 </html>
